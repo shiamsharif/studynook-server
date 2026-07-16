@@ -9,7 +9,7 @@
     "check": "node --check src/server.js && node --check src/controllers/auth.controller.js && node --check src/controllers/room.controller.js && node --check src/controllers/booking.controller.js"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "22.x"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
