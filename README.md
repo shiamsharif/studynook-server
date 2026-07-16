@@ -4,7 +4,7 @@ Express and MongoDB backend for **StudyNook**, a library study-room booking appl
 
 ## Prerequisites
 
-- Node.js 20.9 or newer (also satisfies the server's Node.js 18+ requirement)
+- Node.js 24.x (matches the runtime configured for Vercel)
 - npm
 - A local MongoDB installation or a free MongoDB Atlas database
 - The StudyNook client folder, to run the full application
