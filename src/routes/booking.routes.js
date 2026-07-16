@@ -8,6 +8,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
+
 router.use(authMiddleware);
 router.post('/', createBooking);
 router.get('/my-bookings', getMyBookings);

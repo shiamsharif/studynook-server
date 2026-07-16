@@ -12,6 +12,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
+// @route   POST /api/rooms
 router.route('/').post(authMiddleware, createRoom).get(getRooms);
 router.get('/latest', getLatestRooms);
 router.get('/my-listings', authMiddleware, getMyListings);
