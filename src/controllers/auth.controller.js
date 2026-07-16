@@ -41,6 +41,7 @@ const register = async (req, res, next) => {
   try {
     const { name, email, password, photoURL = '' } = req.body;
 
+    // Validate input
     if (
       typeof name !== 'string' ||
       !name.trim() ||
@@ -52,17 +53,21 @@ const register = async (req, res, next) => {
       return res.status(400).json({ message: 'Name, email, and password are required' });
     }
 
+    // Validate password length
     if (password.length < 8) {
       return res.status(400).json({ message: 'Password must be at least 8 characters' });
     }
 
+    // Normalize email and check for existing user
     const normalizedEmail = email.trim().toLowerCase();
     const existingUser = await User.findOne({ email: normalizedEmail });
 
+    // Check if the email already exists
     if (existingUser) {
       return res.status(409).json({ message: 'Email already exists' });
     }
 
+    // Hash the password and create the user
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await User.create({
       name: name.trim(),
@@ -71,6 +76,7 @@ const register = async (req, res, next) => {
       photoURL,
     });
 
+    // Issue JWT token and respond with the public user data
     issueToken(res, user);
     return res.status(201).json({ message: 'Registration successful', user: publicUser(user) });
   } catch (error) {
@@ -82,6 +88,7 @@ const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
+    // Validate input
     if (
       typeof email !== 'string' ||
       !email.trim() ||
@@ -91,15 +98,18 @@ const login = async (req, res, next) => {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
+    // Find the user by email and compare the password
     const user = await User.findOne({ email: email.trim().toLowerCase() }).select('+password');
     const passwordMatches = user?.password
       ? await bcrypt.compare(password, user.password)
       : false;
 
+    // If user not found or password does not match, return an error
     if (!user || !passwordMatches) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
+    // Issue JWT token and respond with the public user data
     issueToken(res, user);
     return res.status(200).json({ message: 'Login successful', user: publicUser(user) });
   } catch (error) {
@@ -107,6 +117,7 @@ const login = async (req, res, next) => {
   }
 };
 
+// Google login function
 const googleLogin = async (req, res, next) => {
   try {
     const credential = req.body.credential || req.body.idToken;
@@ -166,6 +177,8 @@ const googleLogin = async (req, res, next) => {
   }
 };
 
+
+// Logout function
 const logout = (req, res) => {
   const options = cookieOptions();
   delete options.maxAge;
@@ -173,6 +186,7 @@ const logout = (req, res) => {
   return res.status(200).json({ message: 'Logout successful' });
 };
 
+// Get current user function
 const getMe = (req, res) => res.status(200).json({ user: publicUser(req.user) });
 
 module.exports = { register, login, googleLogin, logout, getMe };
