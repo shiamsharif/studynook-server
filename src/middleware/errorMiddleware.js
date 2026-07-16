@@ -11,10 +11,12 @@ const errorHandler = (error, req, res, next) => {
     statusCode = 400;
     errors = Object.values(error.errors).map((item) => item.message);
     message = 'Validation failed';
-  } else if (error.name === 'CastError') {
+  } 
+  else if (error.name === 'CastError') {
     statusCode = 400;
     message = `Invalid ${error.path}`;
-  } else if (error.code === 11000) {
+  } 
+  else if (error.code === 11000) {
     statusCode = 409;
     const field = Object.keys(error.keyValue || {})[0] || 'value';
     message = `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
