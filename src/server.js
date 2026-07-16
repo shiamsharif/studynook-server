@@ -16,7 +16,6 @@ const requiredEnvironmentVariables = [
   'GOOGLE_CLIENT_ID',
   'CLIENT_URL',
   'NODE_ENV',
-  'PORT',
 ];
 const missingEnvironmentVariables = requiredEnvironmentVariables.filter(
   (key) => !process.env[key]
@@ -51,7 +50,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const port = Number(process.env.PORT);
+const port = Number(process.env.PORT || 5000);
 if (!Number.isInteger(port) || port < 1 || port > 65535) {
   console.error('PORT must be an integer between 1 and 65535');
   process.exit(1);
