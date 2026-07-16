@@ -38,6 +38,8 @@ When startup succeeds, the terminal prints `StudyNook API listening on port 5000
 { "status": "ok" }
 ```
 
+Opening the base API URL (locally <http://localhost:5000> or the deployed Vercel URL) returns a short service status instead of a 404 response.
+
 ## Environment variables
 
 The included `.env.example` works with a local MongoDB instance. Never commit the real `.env` file.
@@ -216,4 +218,5 @@ Cancels a confirmed booking belonging to the current user, removes its ID from t
 
 ## Health check
 
-`GET /api/health` returns `{ "status": "ok" }`.
+- `GET /` returns `{ "message": "StudyNook API is running", "health": "/api/health" }`.
+- `GET /api/health` returns `{ "status": "ok" }`.

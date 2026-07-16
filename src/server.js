@@ -39,6 +39,13 @@ app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(cookieParser());
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'StudyNook API is running',
+    health: '/api/health',
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
